@@ -43,7 +43,7 @@ final class ShoppingCartTest extends AnyFreeSpecLike {
         ShoppingCart(List(Fruit.Apple, Fruit.Apple)).total shouldBe Pence(60)
       }
       "for cart with three apples" in {
-        ShoppingCart(List(Fruit.Apple, Fruit.Apple)).total shouldBe Pence(120)
+        ShoppingCart(List(Fruit.Apple, Fruit.Apple, Fruit.Apple)).total shouldBe Pence(120)
       }
       "for cart with two oranges" in {
         ShoppingCart(List(Fruit.Orange, Fruit.Orange)).total shouldBe Pence(50)
@@ -52,7 +52,7 @@ final class ShoppingCartTest extends AnyFreeSpecLike {
         ShoppingCart(List(Fruit.Orange, Fruit.Orange, Fruit.Orange)).total shouldBe Pence(50)
       }
       "for cart with four oranges" in {
-        ShoppingCart(List(Fruit.Orange, Fruit.Orange, Fruit.Orange)).total shouldBe Pence(75)
+        ShoppingCart(List(Fruit.Orange, Fruit.Orange, Fruit.Orange, Fruit.Orange)).total shouldBe Pence(75)
       }
       "for cart with two apples and three oranges" in {
         ShoppingCart(List(Fruit.Apple, Fruit.Apple, Fruit.Orange, Fruit.Orange, Fruit.Orange)).total shouldBe Pence(60 + 50)
