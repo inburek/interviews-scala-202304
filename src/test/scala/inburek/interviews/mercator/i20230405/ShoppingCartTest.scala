@@ -1,6 +1,6 @@
 package inburek.interviews.mercator.i20230405
 
-import cats.data.Validated
+import cats.data.{NonEmptyList, Validated, ValidatedNel}
 import org.scalatest.freespec.AnyFreeSpecLike
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
@@ -13,6 +13,20 @@ final class ShoppingCartTest extends AnyFreeSpecLike {
       "for multiple apples and oranges" in {
         ShoppingCart.fromStrings(List("Apple", "Orange", "Apple", "Orange", "Orange")) shouldBe
           Validated.validNel(ShoppingCart(List(Fruit.Apple, Fruit.Orange, Fruit.Apple, Fruit.Orange, Fruit.Orange)))
+      }
+      "for unknown fruit" in {
+        ShoppingCart.fromStrings(List("Apple", "Banana", "Orange")) shouldBe
+          Validated.invalidNel("Unknown fruit: Banana")
+      }
+      "for multiple invalid and valid fruits" in {
+        val actual: ValidatedNel[String, ShoppingCart] = ShoppingCart.fromStrings(List("Apple", "Banana", "Orange", "Apple", "Banana", "Orange", "Jackfruit", "Orange"))
+        val expected: ValidatedNel[String, Nothing] = Validated.invalid(NonEmptyList.of(
+          "Unknown fruit: Banana",
+          "Unknown fruit: Banana",
+          "Unknown fruit: Jackfruit",
+        ))
+        ShoppingCart.fromStrings(List("Apple", "Banana", "Orange", "Apple", "Banana", "Orange", "Jackfruit", "Orange")) shouldBe
+          expected
       }
     }
     ".total" - {
