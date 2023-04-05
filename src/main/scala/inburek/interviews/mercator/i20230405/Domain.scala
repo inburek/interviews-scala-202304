@@ -1,6 +1,8 @@
 package inburek.interviews.mercator.i20230405
 
-final case class Pence(value: Int)
+final case class Pence(value: Int) {
+  def +(that: Pence): Pence = ???
+}
 
 case object Pricing {
   def price(fruit: Fruit): Pence = {
