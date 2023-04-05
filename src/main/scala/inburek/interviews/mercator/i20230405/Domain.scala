@@ -1,6 +1,6 @@
 package inburek.interviews.mercator.i20230405
 
-import cats.data.ValidatedNel
+import cats.data.{Validated, ValidatedNel}
 
 final case class Pence(value: Int) {
   def +(that: Pence): Pence = Pence(this.value + that.value)
@@ -17,7 +17,13 @@ case object Pricing {
 
 sealed abstract class Fruit private(val name: String)
 object Fruit {
-  def apply(name: String): ValidatedNel[String, Fruit] = ???
+  def apply(name: String): ValidatedNel[String, Fruit] = {
+    name match {
+      case "Apple" => Validated.validNel(Apple)
+      case "Orange" => Validated.validNel(Orange)
+      case unknown => Validated.invalidNel(s"Unknown fruit: $unknown")
+    }
+  }
 
   case object Apple extends Fruit("Apple")
   case object Orange extends Fruit("Orange")
