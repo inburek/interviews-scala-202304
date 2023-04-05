@@ -10,6 +10,10 @@ final class ShoppingCartTest extends AnyFreeSpecLike {
       "for empty list" in {
         ShoppingCart.fromStrings(Nil) shouldBe Validated.validNel(ShoppingCart(Nil))
       }
+      "for multiple apples and oranges" in {
+        ShoppingCart.fromStrings(List("Apple", "Orange", "Apple", "Orange", "Orange")) shouldBe
+          Validated.validNel(ShoppingCart(List(Fruit.Apple, Fruit.Orange, Fruit.Apple, Fruit.Orange, Fruit.Orange)))
+      }
     }
     ".total" - {
       "for empty cart" in {
