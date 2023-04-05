@@ -4,6 +4,7 @@ import cats.data.{Validated, ValidatedNel}
 
 final case class Pence(value: Int) {
   def +(that: Pence): Pence = Pence(this.value + that.value)
+  def *(that: Int): Pence = Pence(this.value * that)
 }
 
 case object Pricing {
