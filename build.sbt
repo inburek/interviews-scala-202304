@@ -9,6 +9,8 @@ val akkaHttpVersion = "10.5.0"
 
 val mainDependencies = Seq(
   "org.typelevel" %% "cats-core" % "2.9.0",
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
+  "ch.qos.logback" % "logback-classic" % "1.4.6" % Runtime,
 
   // Akka HTTP documentation says we need to depend on Akka itself too.
   "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
