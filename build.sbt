@@ -16,9 +16,13 @@ val mainDependencies = Seq(
   "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
   "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
+
+  "io.spray" %% "spray-json" % "1.3.6",
+  "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
 )
 val testDependencies = Seq(
   "org.scalatest" %% "scalatest" % "3.2.15" % Test,
+  "org.scalamock" %% "scalamock" % "5.2.0" % Test,
 )
 
 lazy val root = (project in file("."))

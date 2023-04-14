@@ -9,7 +9,7 @@ trait FileIO {
 
 object RealFileIO extends FileIO {
   def writeTemporaryFile(bytes: Seq[Byte], filename: String): File = {
-    val tempDir = Files.createTempDirectory(s"itv-coding-exercise-writeTemporaryFile").toFile
+    val tempDir = Files.createTempDirectory(s"itv-coding-exercise-RealFileIO.writeTemporaryFile--").toFile
     val destination = new File(tempDir, filename)
     Files.write(destination.toPath, bytes.toArray)
     destination

@@ -12,6 +12,7 @@ import scala.concurrent.{ExecutionContext, Future}
 sealed abstract case class StrictHttpResponse(strictResponse: HttpResponse, entity: HttpEntity.Strict)
 
 object StrictHttpResponse {
+  // This behaves like an unmarshaller, except that unmarshallers know their download timeouts; we don't.
   def apply(nonStrictResponse: HttpResponse, downloadTimeout: FiniteDuration)
            (implicit ec: ExecutionContext, sys: ActorSystem): Future[StrictHttpResponse] = {
 
