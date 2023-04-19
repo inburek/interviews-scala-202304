@@ -1,4 +1,4 @@
-package interviews.quantexa.i20230418
+package interviews.helloself.i20230418
 
 import org.scalatest.freespec.AnyFreeSpecLike
 import org.scalatest.matchers.should.Matchers._
