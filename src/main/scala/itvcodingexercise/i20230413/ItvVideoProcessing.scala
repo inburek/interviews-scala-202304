@@ -2,6 +2,7 @@ package itvcodingexercise.i20230413
 
 import akka.stream.Materializer
 import com.typesafe.scalalogging.LazyLogging
+import itvcodingexercise.i20230413.ItvVideoProcessing.ProcessingArgs
 import itvcodingexercise.i20230413.lib.FileIO
 import itvcodingexercise.i20230413.lib.media.FFmpeg
 
@@ -10,25 +11,16 @@ import scala.concurrent.{ExecutionContext, Future}
 
 final class ItvVideoProcessing(itvApi: ItvApi, fileIO: FileIO, ffmpeg: FFmpeg) extends LazyLogging {
 
-  def makeThumbnail(args: Seq[String])
+  def makeThumbnail(args: ProcessingArgs)
                    (implicit ec: ExecutionContext, mat: Materializer): Future[Unit] = {
-    val argsDoc: String = """<video asset ID> <thumbnail timestamp> <destination path/filename>"""
-
-    args match {
-      case Seq(videoAssetId: String, thumbnailTimestamp: String, destination: String) =>
-        logger.info(s"Video URL: $videoAssetId")
-        logger.info(s"Thumbnail timestamp: $thumbnailTimestamp")
-        logger.info(s"Destination: $destination")
-
-        for {
-          video <- itvApi.videoFileValidated(videoAssetId)
-          videoFile <- Future(fileIO.writeTemporaryFile(video.bytes, filename = "downloaded.mov"))
-          () <- Future(ffmpeg.makeThumbnail(videoFile, offset = thumbnailTimestamp, destination = new File(destination)))
-        } yield ()
-      case _ =>
-        val errorMessage = s"""Expected 3 arguments ($argsDoc) but got ${args.length}:\n${args.mkString("\n")}"""
-        logger.error(errorMessage)
-        throw new IllegalArgumentException(errorMessage)
-    }
+    for {
+      video <- itvApi.videoFileValidated(args.videoAssetId)
+      videoFile <- Future(fileIO.writeTemporaryFile(video.bytes, filename = "downloaded.mov"))
+      () <- Future(ffmpeg.makeThumbnail(videoFile, offset = args.thumbnailTimestamp, destination = new File(args.destination)))
+    } yield ()
   }
+}
+
+object ItvVideoProcessing {
+  final case class ProcessingArgs(videoAssetId: String, thumbnailTimestamp: String, destination: String)
 }

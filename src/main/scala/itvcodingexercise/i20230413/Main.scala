@@ -21,7 +21,11 @@ object Main extends LazyLogging {
       val fmpeg: FFmpeg = new RealFFmpeg()
       val videoProcessing = new ItvVideoProcessing(itvApi, RealFileIO, fmpeg)
 
-      Await.result(videoProcessing.makeThumbnail(args), 60.seconds)
+      ArgsProcessing.processDownloadVideoArgs(args) match {
+        case Right(validatedArgs) =>
+          Await.result(videoProcessing.makeThumbnail(validatedArgs), 60.seconds)
+        case Left(error) => logger.error(error)
+      }
     } finally {
       system.terminate()
     }
